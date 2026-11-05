@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#fff9ed">
+  <meta name="theme-color" content="#edf6ff">
   <title>Hello Pet World</title>
   <style>
     :root {
       color-scheme: light;
-      --ink: #263b38;
-      --muted: #64736c;
-      --paper: #fff9ed;
-      --white: #fffefa;
-      --green: #1d705c;
-      --green-dark: #155444;
-      --coral: #e86c55;
-      --yellow: #f3c756;
-      --line: #e9e4d8;
-      --shadow: 0 12px 30px rgb(52 63 47 / 8%);
+      --ink: #142d48;
+      --muted: #58718a;
+      --paper: #edf6ff;
+      --white: #ffffff;
+      --navy: #174b78;
+      --navy-dark: #103653;
+      --blue: #4b8fc5;
+      --blue-light: #dcecff;
+      --line: #d5e4f1;
+      --shadow: 0 12px 30px rgb(24 58 91 / 10%);
     }
 
     * { box-sizing: border-box; }
@@ -27,8 +27,8 @@
       min-width: 320px;
       color: var(--ink);
       background:
-        radial-gradient(ellipse at 5% 3%, rgb(245 207 113 / 21%), transparent 25rem),
-        radial-gradient(ellipse at 95% 16%, rgb(124 190 156 / 16%), transparent 28rem),
+        radial-gradient(ellipse at 5% 3%, rgb(145 194 235 / 28%), transparent 25rem),
+        radial-gradient(ellipse at 95% 16%, rgb(193 222 247 / 35%), transparent 28rem),
         var(--paper);
       font-family: "Trebuchet MS", "Arial Rounded MT Bold", Arial, sans-serif;
       line-height: 1.5;
@@ -36,7 +36,7 @@
 
     button { font: inherit; }
     button:focus-visible, a:focus-visible {
-      outline: 3px solid #d45d45;
+      outline: 3px solid #397db3;
       outline-offset: 3px;
     }
 
@@ -48,7 +48,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      border-bottom: 1px solid rgb(38 59 56 / 10%);
+      border-bottom: 1px solid rgb(20 45 72 / 12%);
     }
 
     .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
@@ -60,9 +60,9 @@
       gap: 8px;
       min-height: 42px;
       padding: 8px 14px;
-      color: #8d3b31;
-      background: #fff0e9;
-      border: 1px solid #f5d6ca;
+      color: var(--navy-dark);
+      background: #e1effc;
+      border: 1px solid #c8dff2;
       border-radius: 999px;
       font-weight: 800;
     }
@@ -72,7 +72,7 @@
     .eyebrow {
       display: inline-block;
       margin-bottom: 8px;
-      color: var(--green);
+      color: var(--navy);
       font-size: .75rem;
       font-weight: 900;
       letter-spacing: .12em;
@@ -90,8 +90,8 @@
       min-height: 112px;
       margin: 0 auto 30px;
       padding: 18px 22px;
-      background: #eaf3df;
-      border: 1px solid #d6e5c7;
+      background: #dcecff;
+      border: 1px solid #c4dcf1;
       border-radius: 18px;
     }
     .recommendation-copy { display: flex; align-items: center; gap: 15px; min-width: 0; }
@@ -101,12 +101,12 @@
       width: 60px;
       height: 60px;
       place-items: center;
-      background: #fffdf6;
+      background: #fafdff;
       border-radius: 17px;
       font-size: 2rem;
     }
     .recommendation h2 { margin: 0; font-size: 1rem; }
-    .recommendation p { margin: 3px 0 0; color: #526457; }
+    .recommendation p { margin: 3px 0 0; color: #46627d; }
     .recommendation .pet-name { font-weight: 900; }
 
     .button {
@@ -123,10 +123,10 @@
       transition: background-color .16s ease, transform .16s ease;
     }
     .button:hover { transform: translateY(-1px); }
-    .button-primary { color: white; background: var(--green); }
-    .button-primary:hover { background: var(--green-dark); }
-    .button-light { color: var(--green-dark); background: white; border: 1px solid #d4dfca; }
-    .button-light:hover { background: #f5f8ee; }
+    .button-primary { color: white; background: var(--navy); }
+    .button-primary:hover { background: var(--navy-dark); }
+    .button-light { color: var(--navy-dark); background: white; border: 1px solid #cbdced; }
+    .button-light:hover { background: #f0f7ff; }
 
     .gallery-heading {
       display: flex;
@@ -142,15 +142,15 @@
     .filter-button {
       min-height: 39px;
       padding: 7px 14px;
-      color: #43564f;
-      background: #fffefa;
+      color: #3b5873;
+      background: #ffffff;
       border: 1px solid var(--line);
       border-radius: 999px;
       cursor: pointer;
       font-size: .9rem;
       font-weight: 800;
     }
-    .filter-button[aria-pressed="true"] { color: white; background: var(--green); border-color: var(--green); }
+    .filter-button[aria-pressed="true"] { color: white; background: var(--navy); border-color: var(--navy); }
 
     .pet-grid {
       display: grid;
@@ -166,7 +166,7 @@
       background: var(--white);
       border: 1px solid var(--line);
       border-radius: 17px;
-      box-shadow: 0 4px 14px rgb(52 63 47 / 4%);
+      box-shadow: 0 4px 14px rgb(24 58 91 / 5%);
       transition: transform .18s ease, box-shadow .18s ease;
     }
     .pet-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
@@ -183,13 +183,13 @@
     .pet-art::before, .pet-art::after { position: absolute; content: ""; border-radius: 50%; pointer-events: none; }
     .pet-art::before { width: 20px; height: 20px; top: 22px; left: 22px; background: rgb(255 255 255 / 54%); }
     .pet-art::after { width: 12px; height: 12px; right: 27px; bottom: 24px; background: rgb(255 255 255 / 66%); }
-    .pet-emoji { position: relative; z-index: 1; filter: drop-shadow(0 5px 1px rgb(44 50 38 / 8%)); }
+    .pet-emoji { position: relative; z-index: 1; filter: drop-shadow(0 5px 1px rgb(24 45 67 / 10%)); }
     .card-topline { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 13px 0 3px; }
     .pet-card h3 { margin: 0; font-size: 1.16rem; }
     .pet-kind {
       padding: 3px 9px;
-      color: #315b4a;
-      background: #eaf3df;
+      color: #174b78;
+      background: #e1effc;
       border-radius: 999px;
       font-size: .72rem;
       font-weight: 900;
@@ -198,7 +198,7 @@
     .card-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
     .details-button {
       padding: 4px 0;
-      color: var(--green-dark);
+      color: var(--navy-dark);
       background: transparent;
       border: 0;
       cursor: pointer;
@@ -212,14 +212,14 @@
       height: 40px;
       flex: 0 0 40px;
       place-items: center;
-      color: #a64b43;
-      background: #fff3ef;
-      border: 1px solid #f3ded6;
+      color: #245f91;
+      background: #eaf4fd;
+      border: 1px solid #cfe2f3;
       border-radius: 50%;
       cursor: pointer;
       font-size: 1.15rem;
     }
-    .heart-button[aria-pressed="true"] { color: white; background: var(--coral); border-color: var(--coral); }
+    .heart-button[aria-pressed="true"] { color: white; background: var(--blue); border-color: var(--blue); }
     .empty-state { grid-column: 1 / -1; padding: 32px 16px; color: var(--muted); text-align: center; }
     .empty-state strong { display: block; margin-bottom: 4px; color: var(--ink); font-size: 1.1rem; }
 
@@ -231,9 +231,9 @@
       background: var(--white);
       border: 1px solid var(--line);
       border-radius: 20px;
-      box-shadow: 0 24px 80px rgb(27 43 37 / 25%);
+      box-shadow: 0 24px 80px rgb(16 43 68 / 25%);
     }
-    dialog::backdrop { background: rgb(26 39 34 / 54%); backdrop-filter: blur(3px); }
+    dialog::backdrop { background: rgb(16 39 64 / 58%); backdrop-filter: blur(3px); }
     .dialog-content { padding: 18px; }
     .dialog-top { display: flex; justify-content: end; margin-bottom: 8px; }
     .close-button {
@@ -242,7 +242,7 @@
       height: 40px;
       place-items: center;
       color: var(--ink);
-      background: #f3f0e8;
+      background: #e8f2fc;
       border: 0;
       border-radius: 50%;
       cursor: pointer;
@@ -253,10 +253,10 @@
     .dialog-titleline { display: flex; align-items: center; gap: 10px; margin-top: 15px; }
     .dialog-titleline h2 { margin: 0; font-size: 1.7rem; }
     .detail-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0 18px; }
-    .detail-item { padding: 10px 12px; background: #f6f5ed; border-radius: 10px; }
+    .detail-item { padding: 10px 12px; background: #eef6fd; border-radius: 10px; }
     .detail-item dt { color: var(--muted); font-size: .75rem; font-weight: 800; }
     .detail-item dd { margin: 3px 0 0; font-weight: 800; }
-    .personality { margin: 0 0 16px; color: #43564f; }
+    .personality { margin: 0 0 16px; color: #3b5873; }
     .dialog-actions { display: flex; justify-content: flex-start; gap: 9px; }
     footer { padding: 18px 0 24px; color: var(--muted); font-size: .82rem; text-align: center; }
 
@@ -346,12 +346,12 @@
     "use strict";
 
     const pets = [
-      { id: "biscuit", name: "Biscuit", type: "Dog", breed: "Corgi", age: "2 years", personality: "A cheerful little explorer who thinks every new friend is the best friend.", activity: "Sniffing out sunny spots", emoji: "🐶", colors: ["#ffe1a8", "#f6b2a1"] },
-      { id: "milo", name: "Milo", type: "Dog", breed: "Beagle", age: "4 years", personality: "Curious, kind, and always ready to follow an interesting smell.", activity: "Going on sniffy walks", emoji: "🐕", colors: ["#d9edbd", "#a9d8bd"] },
-      { id: "poppy", name: "Poppy", type: "Dog", breed: "Shiba Inu", age: "1 year", personality: "A bouncy goofball with a brave heart and a very wiggly tail.", activity: "Playing fetch in the park", emoji: "🐕‍🦺", colors: ["#ffd8bb", "#ffbd91"] },
-      { id: "peaches", name: "Peaches", type: "Cat", breed: "Calico", age: "3 years", personality: "A gentle daydreamer who saves her warmest purrs for pals.", activity: "Watching butterflies", emoji: "🐈", colors: ["#ffe8a8", "#f8cb79"] },
-      { id: "mochi", name: "Mochi", type: "Cat", breed: "British Shorthair", age: "5 years", personality: "A soft, thoughtful cuddlebug who likes to take life at a cozy pace.", activity: "Napping in a sunbeam", emoji: "🐈‍⬛", colors: ["#d8dcf4", "#bfc9ea"] },
-      { id: "sprout", name: "Sprout", type: "Cat", breed: "Tabby", age: "8 months", personality: "A tiny bundle of curiosity with a playful pounce for every occasion.", activity: "Chasing a feather toy", emoji: "🐱", colors: ["#d9edcf", "#b9dca4"] }
+      { id: "biscuit", name: "Biscuit", type: "Dog", breed: "Corgi", age: "2 years", personality: "A cheerful little explorer who thinks every new friend is the best friend.", activity: "Sniffing out sunny spots", emoji: "🐶", colors: ["#d8eaff", "#b5d7f0"] },
+      { id: "milo", name: "Milo", type: "Dog", breed: "Beagle", age: "4 years", personality: "Curious, kind, and always ready to follow an interesting smell.", activity: "Going on sniffy walks", emoji: "🐕", colors: ["#d6e8f7", "#a9cbea"] },
+      { id: "poppy", name: "Poppy", type: "Dog", breed: "Shiba Inu", age: "1 year", personality: "A bouncy goofball with a brave heart and a very wiggly tail.", activity: "Playing fetch in the park", emoji: "🐕‍🦺", colors: ["#d5f1f3", "#a9d8e7"] },
+      { id: "peaches", name: "Peaches", type: "Cat", breed: "Calico", age: "3 years", personality: "A gentle daydreamer who saves her warmest purrs for pals.", activity: "Watching butterflies", emoji: "🐈", colors: ["#e1e9fa", "#bdcfea"] },
+      { id: "mochi", name: "Mochi", type: "Cat", breed: "British Shorthair", age: "5 years", personality: "A soft, thoughtful cuddlebug who likes to take life at a cozy pace.", activity: "Napping in a sunbeam", emoji: "🐈‍⬛", colors: ["#d9e3f2", "#aebfd8"] },
+      { id: "sprout", name: "Sprout", type: "Cat", breed: "Tabby", age: "8 months", personality: "A tiny bundle of curiosity with a playful pounce for every occasion.", activity: "Chasing a feather toy", emoji: "🐱", colors: ["#d5edff", "#a7d6ef"] }
     ];
 
     const favorites = new Set();
