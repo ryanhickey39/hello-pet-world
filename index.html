@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff9ed">
+  <title>Hello Pet World</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #263b38;
+      --muted: #64736c;
+      --paper: #fff9ed;
+      --white: #fffefa;
+      --green: #1d705c;
+      --green-dark: #155444;
+      --coral: #e86c55;
+      --yellow: #f3c756;
+      --line: #e9e4d8;
+      --shadow: 0 12px 30px rgb(52 63 47 / 8%);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 5% 3%, rgb(245 207 113 / 21%), transparent 25rem),
+        radial-gradient(ellipse at 95% 16%, rgb(124 190 156 / 16%), transparent 28rem),
+        var(--paper);
+      font-family: "Trebuchet MS", "Arial Rounded MT Bold", Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid #d45d45;
+      outline-offset: 3px;
+    }
+
+    .page-shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+
+    .topbar {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid rgb(38 59 56 / 10%);
+    }
+
+    .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+    .brand-mark { font-size: 1.7rem; line-height: 1; }
+    .brand-name { font-size: 1.12rem; font-weight: 900; letter-spacing: 0; }
+    .favorite-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 8px 14px;
+      color: #8d3b31;
+      background: #fff0e9;
+      border: 1px solid #f5d6ca;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+
+    main { padding: 35px 0 60px; }
+    .intro { max-width: 700px; margin: 0 auto 28px; text-align: center; }
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--green);
+      font-size: .75rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 0; font-size: clamp(2.15rem, 7vw, 3.8rem); line-height: 1.08; }
+    .intro p { margin: 13px 0 0; color: var(--muted); font-size: 1.06rem; }
+
+    .recommendation {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+      max-width: 850px;
+      min-height: 112px;
+      margin: 0 auto 30px;
+      padding: 18px 22px;
+      background: #eaf3df;
+      border: 1px solid #d6e5c7;
+      border-radius: 18px;
+    }
+    .recommendation-copy { display: flex; align-items: center; gap: 15px; min-width: 0; }
+    .recommendation-visual {
+      display: grid;
+      flex: 0 0 60px;
+      width: 60px;
+      height: 60px;
+      place-items: center;
+      background: #fffdf6;
+      border-radius: 17px;
+      font-size: 2rem;
+    }
+    .recommendation h2 { margin: 0; font-size: 1rem; }
+    .recommendation p { margin: 3px 0 0; color: #526457; }
+    .recommendation .pet-name { font-weight: 900; }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 16px;
+      border: 0;
+      border-radius: 11px;
+      cursor: pointer;
+      font-weight: 900;
+      transition: background-color .16s ease, transform .16s ease;
+    }
+    .button:hover { transform: translateY(-1px); }
+    .button-primary { color: white; background: var(--green); }
+    .button-primary:hover { background: var(--green-dark); }
+    .button-light { color: var(--green-dark); background: white; border: 1px solid #d4dfca; }
+    .button-light:hover { background: #f5f8ee; }
+
+    .gallery-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      max-width: 1000px;
+      margin: 0 auto 14px;
+    }
+    .gallery-heading h2 { margin: 0; font-size: 1.35rem; }
+    .gallery-heading p { margin: 3px 0 0; color: var(--muted); font-size: .9rem; }
+    .filters { display: flex; flex-wrap: wrap; gap: 7px; }
+    .filter-button {
+      min-height: 39px;
+      padding: 7px 14px;
+      color: #43564f;
+      background: #fffefa;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: .9rem;
+      font-weight: 800;
+    }
+    .filter-button[aria-pressed="true"] { color: white; background: var(--green); border-color: var(--green); }
+
+    .pet-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 17px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .pet-card {
+      position: relative;
+      overflow: hidden;
+      padding: 15px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      box-shadow: 0 4px 14px rgb(52 63 47 / 4%);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .pet-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .pet-art {
+      position: relative;
+      display: grid;
+      min-height: 165px;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 12px;
+      font-size: 5.3rem;
+      line-height: 1;
+    }
+    .pet-art::before, .pet-art::after { position: absolute; content: ""; border-radius: 50%; pointer-events: none; }
+    .pet-art::before { width: 20px; height: 20px; top: 22px; left: 22px; background: rgb(255 255 255 / 54%); }
+    .pet-art::after { width: 12px; height: 12px; right: 27px; bottom: 24px; background: rgb(255 255 255 / 66%); }
+    .pet-emoji { position: relative; z-index: 1; filter: drop-shadow(0 5px 1px rgb(44 50 38 / 8%)); }
+    .card-topline { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 13px 0 3px; }
+    .pet-card h3 { margin: 0; font-size: 1.16rem; }
+    .pet-kind {
+      padding: 3px 9px;
+      color: #315b4a;
+      background: #eaf3df;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 900;
+    }
+    .pet-meta { margin: 0; color: var(--muted); font-size: .88rem; }
+    .card-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
+    .details-button {
+      padding: 4px 0;
+      color: var(--green-dark);
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      font-weight: 900;
+      text-align: left;
+    }
+    .details-button:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .heart-button {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+      place-items: center;
+      color: #a64b43;
+      background: #fff3ef;
+      border: 1px solid #f3ded6;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.15rem;
+    }
+    .heart-button[aria-pressed="true"] { color: white; background: var(--coral); border-color: var(--coral); }
+    .empty-state { grid-column: 1 / -1; padding: 32px 16px; color: var(--muted); text-align: center; }
+    .empty-state strong { display: block; margin-bottom: 4px; color: var(--ink); font-size: 1.1rem; }
+
+    dialog {
+      width: min(460px, calc(100% - 32px));
+      max-height: min(90vh, 700px);
+      padding: 0;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 24px 80px rgb(27 43 37 / 25%);
+    }
+    dialog::backdrop { background: rgb(26 39 34 / 54%); backdrop-filter: blur(3px); }
+    .dialog-content { padding: 18px; }
+    .dialog-top { display: flex; justify-content: end; margin-bottom: 8px; }
+    .close-button {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      color: var(--ink);
+      background: #f3f0e8;
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.45rem;
+      line-height: 1;
+    }
+    .dialog-art { min-height: 185px; font-size: 6rem; }
+    .dialog-titleline { display: flex; align-items: center; gap: 10px; margin-top: 15px; }
+    .dialog-titleline h2 { margin: 0; font-size: 1.7rem; }
+    .detail-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0 18px; }
+    .detail-item { padding: 10px 12px; background: #f6f5ed; border-radius: 10px; }
+    .detail-item dt { color: var(--muted); font-size: .75rem; font-weight: 800; }
+    .detail-item dd { margin: 3px 0 0; font-weight: 800; }
+    .personality { margin: 0 0 16px; color: #43564f; }
+    .dialog-actions { display: flex; justify-content: flex-start; gap: 9px; }
+    footer { padding: 18px 0 24px; color: var(--muted); font-size: .82rem; text-align: center; }
+
+    @media (max-width: 760px) {
+      .pet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pet-art { min-height: 145px; }
+    }
+    @media (max-width: 540px) {
+      .page-shell { width: min(100% - 28px, 430px); }
+      .topbar { min-height: 66px; }
+      main { padding-top: 27px; }
+      .recommendation { grid-template-columns: 1fr; padding: 16px; }
+      .recommendation .button { width: 100%; }
+      .gallery-heading { align-items: flex-start; flex-direction: column; }
+      .filters { width: 100%; }
+      .filter-button { flex: 1; padding-inline: 9px; }
+      .pet-grid { gap: 11px; }
+      .pet-card { padding: 10px; border-radius: 14px; }
+      .pet-art { min-height: 118px; font-size: 4rem; }
+      .card-topline { align-items: flex-start; flex-direction: column; gap: 4px; }
+      .pet-card h3 { font-size: 1.05rem; }
+      .pet-meta { font-size: .8rem; }
+      .card-actions { margin-top: 8px; }
+      .detail-list { grid-template-columns: 1fr; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Hello Pet World home">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span class="brand-name">Hello Pet World</span>
+      </a>
+      <div class="favorite-count" aria-live="polite" aria-atomic="true">
+        <span aria-hidden="true">♥</span>
+        <span>Favourites: <span id="favorite-count">0</span></span>
+      </div>
+    </header>
+
+    <main id="home">
+      <section class="intro" aria-labelledby="page-title">
+        <span class="eyebrow">A little world of lovely pets</span>
+        <h1 id="page-title">Big paws. Tiny paws.<br>All heart.</h1>
+        <p>Meet your new favorite friend. Six sweet personalities are waiting to say hello!</p>
+      </section>
+
+      <section class="recommendation" aria-labelledby="recommendation-title">
+        <div class="recommendation-copy" aria-live="polite" aria-atomic="true">
+          <div class="recommendation-visual" id="recommendation-visual" aria-hidden="true">✨</div>
+          <div>
+            <h2 id="recommendation-title">A friend picked just for you</h2>
+            <p id="recommendation-text">Tap the button and meet a surprise pet!</p>
+          </div>
+        </div>
+        <button class="button button-primary" id="recommend-button" type="button"><span aria-hidden="true">🎲</span> Pick a pet</button>
+      </section>
+
+      <section aria-labelledby="pets-heading">
+        <div class="gallery-heading">
+          <div>
+            <h2 id="pets-heading">Meet the pets</h2>
+            <p id="pet-count" aria-live="polite">Six friends to meet</p>
+          </div>
+          <div class="filters" role="group" aria-label="Filter pets">
+            <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All pets</button>
+            <button class="filter-button" type="button" data-filter="dog" aria-pressed="false">🐶 Dogs</button>
+            <button class="filter-button" type="button" data-filter="cat" aria-pressed="false">🐱 Cats</button>
+            <button class="filter-button" type="button" data-filter="favorites" aria-pressed="false">♥ Favourites</button>
+          </div>
+        </div>
+        <div class="pet-grid" id="pet-grid" aria-live="polite" aria-label="Pets"></div>
+      </section>
+    </main>
+
+    <footer>Made with a little wag, a little purr, and lots of love.</footer>
+  </div>
+
+  <dialog id="pet-dialog" aria-labelledby="dialog-name">
+    <div class="dialog-content" id="dialog-content"></div>
+  </dialog>
+
+  <script>
+    "use strict";
+
+    const pets = [
+      { id: "biscuit", name: "Biscuit", type: "Dog", breed: "Corgi", age: "2 years", personality: "A cheerful little explorer who thinks every new friend is the best friend.", activity: "Sniffing out sunny spots", emoji: "🐶", colors: ["#ffe1a8", "#f6b2a1"] },
+      { id: "milo", name: "Milo", type: "Dog", breed: "Beagle", age: "4 years", personality: "Curious, kind, and always ready to follow an interesting smell.", activity: "Going on sniffy walks", emoji: "🐕", colors: ["#d9edbd", "#a9d8bd"] },
+      { id: "poppy", name: "Poppy", type: "Dog", breed: "Shiba Inu", age: "1 year", personality: "A bouncy goofball with a brave heart and a very wiggly tail.", activity: "Playing fetch in the park", emoji: "🐕‍🦺", colors: ["#ffd8bb", "#ffbd91"] },
+      { id: "peaches", name: "Peaches", type: "Cat", breed: "Calico", age: "3 years", personality: "A gentle daydreamer who saves her warmest purrs for pals.", activity: "Watching butterflies", emoji: "🐈", colors: ["#ffe8a8", "#f8cb79"] },
+      { id: "mochi", name: "Mochi", type: "Cat", breed: "British Shorthair", age: "5 years", personality: "A soft, thoughtful cuddlebug who likes to take life at a cozy pace.", activity: "Napping in a sunbeam", emoji: "🐈‍⬛", colors: ["#d8dcf4", "#bfc9ea"] },
+      { id: "sprout", name: "Sprout", type: "Cat", breed: "Tabby", age: "8 months", personality: "A tiny bundle of curiosity with a playful pounce for every occasion.", activity: "Chasing a feather toy", emoji: "🐱", colors: ["#d9edcf", "#b9dca4"] }
+    ];
+
+    const favorites = new Set();
+    let activeFilter = "all";
+    const petGrid = document.getElementById("pet-grid");
+    const favoriteCount = document.getElementById("favorite-count");
+    const petCount = document.getElementById("pet-count");
+    const petDialog = document.getElementById("pet-dialog");
+    const dialogContent = document.getElementById("dialog-content");
+
+    function visiblePets() {
+      if (activeFilter === "favorites") return pets.filter((pet) => favorites.has(pet.id));
+      if (activeFilter === "all") return pets;
+      return pets.filter((pet) => pet.type.toLowerCase() === activeFilter);
+    }
+
+    function renderPets() {
+      const shownPets = visiblePets();
+      petGrid.replaceChildren();
+      petCount.textContent = `${shownPets.length} ${shownPets.length === 1 ? "friend" : "friends"} to meet`;
+
+      if (shownPets.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        const title = document.createElement("strong");
+        title.textContent = "No favourites just yet";
+        const note = document.createElement("span");
+        note.textContent = "Tap a heart on any pet to save them here.";
+        empty.append(title, note);
+        petGrid.append(empty);
+        return;
+      }
+
+      for (const pet of shownPets) {
+        const card = document.createElement("article");
+        card.className = "pet-card";
+        const art = document.createElement("div");
+        art.className = "pet-art";
+        art.style.background = `linear-gradient(145deg, ${pet.colors[0]}, ${pet.colors[1]})`;
+        art.setAttribute("role", "img");
+        art.setAttribute("aria-label", `Cartoon ${pet.type.toLowerCase()} ${pet.name}`);
+        const emoji = document.createElement("span");
+        emoji.className = "pet-emoji";
+        emoji.setAttribute("aria-hidden", "true");
+        emoji.textContent = pet.emoji;
+        art.append(emoji);
+
+        const topline = document.createElement("div");
+        topline.className = "card-topline";
+        const name = document.createElement("h3");
+        name.textContent = pet.name;
+        const kind = document.createElement("span");
+        kind.className = "pet-kind";
+        kind.textContent = pet.type;
+        topline.append(name, kind);
+
+        const meta = document.createElement("p");
+        meta.className = "pet-meta";
+        meta.textContent = `${pet.breed} · ${pet.age}`;
+
+        const actions = document.createElement("div");
+        actions.className = "card-actions";
+        const details = document.createElement("button");
+        details.className = "details-button";
+        details.type = "button";
+        details.textContent = "Meet this pet →";
+        details.setAttribute("aria-label", `View details for ${pet.name}`);
+        details.addEventListener("click", () => openPetDetails(pet));
+        const heart = document.createElement("button");
+        heart.className = "heart-button";
+        heart.type = "button";
+        heart.setAttribute("aria-pressed", String(favorites.has(pet.id)));
+        heart.setAttribute("aria-label", `${favorites.has(pet.id) ? "Remove" : "Add"} ${pet.name} ${favorites.has(pet.id) ? "from" : "to"} favourites`);
+        heart.title = heart.getAttribute("aria-label");
+        heart.textContent = favorites.has(pet.id) ? "♥" : "♡";
+        heart.addEventListener("click", () => toggleFavorite(pet.id));
+        actions.append(details, heart);
+
+        card.append(art, topline, meta, actions);
+        petGrid.append(card);
+      }
+    }
+
+    function updateFavoriteCount() {
+      favoriteCount.textContent = String(favorites.size);
+    }
+
+    function toggleFavorite(petId) {
+      if (favorites.has(petId)) favorites.delete(petId);
+      else favorites.add(petId);
+      updateFavoriteCount();
+      renderPets();
+      const selectedPet = pets.find((pet) => pet.id === petId);
+      if (petDialog.open && selectedPet) openPetDetails(selectedPet);
+    }
+
+    function openPetDetails(pet) {
+      const isFavorite = favorites.has(pet.id);
+      dialogContent.replaceChildren();
+
+      const top = document.createElement("div");
+      top.className = "dialog-top";
+      const close = document.createElement("button");
+      close.className = "close-button";
+      close.type = "button";
+      close.setAttribute("aria-label", "Close pet details");
+      close.textContent = "×";
+      close.addEventListener("click", () => petDialog.close());
+      top.append(close);
+
+      const art = document.createElement("div");
+      art.className = "pet-art dialog-art";
+      art.style.background = `linear-gradient(145deg, ${pet.colors[0]}, ${pet.colors[1]})`;
+      art.setAttribute("role", "img");
+      art.setAttribute("aria-label", `Cartoon ${pet.type.toLowerCase()} ${pet.name}`);
+      art.textContent = pet.emoji;
+
+      const titleLine = document.createElement("div");
+      titleLine.className = "dialog-titleline";
+      const name = document.createElement("h2");
+      name.id = "dialog-name";
+      name.textContent = pet.name;
+      const kind = document.createElement("span");
+      kind.className = "pet-kind";
+      kind.textContent = pet.type;
+      titleLine.append(name, kind);
+
+      const details = document.createElement("dl");
+      details.className = "detail-list";
+      for (const [label, value] of [["Breed", pet.breed], ["Age", pet.age], ["Favorite activity", pet.activity]]) {
+        const item = document.createElement("div");
+        item.className = "detail-item";
+        const term = document.createElement("dt");
+        term.textContent = label;
+        const description = document.createElement("dd");
+        description.textContent = value;
+        item.append(term, description);
+        details.append(item);
+      }
+
+      const personality = document.createElement("p");
+      personality.className = "personality";
+      personality.textContent = pet.personality;
+      const actions = document.createElement("div");
+      actions.className = "dialog-actions";
+      const favoriteButton = document.createElement("button");
+      favoriteButton.className = "button button-primary";
+      favoriteButton.type = "button";
+      favoriteButton.textContent = isFavorite ? "♥ Remove favourite" : "♡ Add to favourites";
+      favoriteButton.addEventListener("click", () => toggleFavorite(pet.id));
+      actions.append(favoriteButton);
+
+      dialogContent.append(top, art, titleLine, details, personality, actions);
+      if (!petDialog.open) petDialog.showModal();
+    }
+
+    document.querySelectorAll(".filter-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        document.querySelectorAll(".filter-button").forEach((filterButton) => {
+          filterButton.setAttribute("aria-pressed", String(filterButton === button));
+        });
+        renderPets();
+      });
+    });
+
+    document.getElementById("recommend-button").addEventListener("click", () => {
+      const pet = pets[Math.floor(Math.random() * pets.length)];
+      const visual = document.getElementById("recommendation-visual");
+      visual.textContent = pet.emoji;
+      visual.setAttribute("aria-label", `Cartoon ${pet.type.toLowerCase()} ${pet.name}`);
+      const text = document.getElementById("recommendation-text");
+      text.replaceChildren();
+      const name = document.createElement("span");
+      name.className = "pet-name";
+      name.textContent = `${pet.name} the ${pet.breed}`;
+      text.append(name, document.createTextNode(` is ready to meet you! `));
+      const details = document.createElement("button");
+      details.className = "details-button";
+      details.type = "button";
+      details.textContent = "Say hello →";
+      details.addEventListener("click", () => openPetDetails(pet));
+      text.append(details);
+    });
+
+    renderPets();
+  </script>
+</body>
+</html>
